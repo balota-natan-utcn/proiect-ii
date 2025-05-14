@@ -3,6 +3,7 @@ proiect Inginerie Industriala
 
 
 Prerequisites:
+
 	SQL Server Express, SSMS for the database
 	in the Windows Forms Application run "Install-Package Microsoft.Data.SqlClient" in the NuGet Package Manager
 
