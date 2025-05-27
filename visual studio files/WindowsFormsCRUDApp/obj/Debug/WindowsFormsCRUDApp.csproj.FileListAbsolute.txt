@@ -1,9 +1,0 @@
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\WindowsFormsCRUDApp.exe.config
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\WindowsFormsCRUDApp.exe
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\WindowsFormsCRUDApp.pdb
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.csproj.AssemblyReference.cache
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.Properties.Resources.resources
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.csproj.GenerateResource.cache
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.csproj.CoreCompileInputs.cache
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.exe
-D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.pdb
