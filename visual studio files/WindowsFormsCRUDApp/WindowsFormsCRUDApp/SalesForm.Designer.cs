@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +6,9 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace ManagerInventar
 {
@@ -114,20 +117,20 @@ namespace ManagerInventar
                 int quantity = Convert.ToInt32(numQuantity.Value);
                 decimal subtotal = price * quantity;
 
-                // Check if product already exists in cart
+                //Check if product already exists in cart
                 DataRow existingRow = cartItems.AsEnumerable()
                     .FirstOrDefault(row => row.Field<int>("ID_Produs") == productId);
 
                 if (existingRow != null)
                 {
-                    // Update existing item
+                    //update existing item
                     int newQuantity = existingRow.Field<int>("Cantitate") + quantity;
                     existingRow["Cantitate"] = newQuantity;
                     existingRow["Subtotal"] = price * newQuantity;
                 }
                 else
                 {
-                    // Add new item
+                    //add new item
                     DataRow newRow = cartItems.NewRow();
                     newRow["ID_Produs"] = productId;
                     newRow["NumeProdus"] = productName;
@@ -212,6 +215,7 @@ namespace ManagerInventar
 
         private void ProcessSaleTransaction()
         {
+            int savedOrderId;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -219,7 +223,7 @@ namespace ManagerInventar
 
                 try
                 {
-                    // Insert order into Comenzi table
+                    //insert order into Comenzi table
                     string orderQuery = @"
                         INSERT INTO Comenzi (ID_Client, DataComanda, Total) 
                         VALUES (@ClientId, @OrderDate, @Total);
@@ -231,8 +235,9 @@ namespace ManagerInventar
                     orderCommand.Parameters.AddWithValue("@Total", totalAmount);
 
                     int orderId = Convert.ToInt32(orderCommand.ExecuteScalar());
+                    savedOrderId = Convert.ToInt32(orderCommand.ExecuteScalar());
 
-                    // Update product quantities
+                    //update product quantities
                     foreach (DataRow item in cartItems.Rows)
                     {
                         int productId = Convert.ToInt32(item["ID_Produs"]);
@@ -253,10 +258,6 @@ namespace ManagerInventar
 
                     MessageBox.Show($"Sale processed successfully!\nOrder ID: {orderId}", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Clear the form
-                    ClearSaleForm();
-                    LoadProducts(); // Refresh products to show updated stock
                 }
                 catch (Exception ex)
                 {
@@ -264,6 +265,12 @@ namespace ManagerInventar
                     throw new Exception($"Transaction failed: {ex.Message}");
                 }
             }
+
+            GenerateInvoicePdf(savedOrderId);
+
+            //clear the form
+            ClearSaleForm();
+            LoadProducts(); //refresh products to show updated stock
         }
 
         private void UpdateTotalAmount()
@@ -298,6 +305,91 @@ namespace ManagerInventar
             ClearProductSelection();
             cartItems.Clear();
             UpdateTotalAmount();
+        }
+
+        private void GenerateInvoicePdf(int orderId)
+        {
+            string filePath = $"Factura_{orderId}.pdf";
+
+            Document doc = new Document(PageSize.A4, 50, 50, 25, 25);
+            PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
+            doc.Open();
+
+            //fonts
+            var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
+            var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+            var regularFont = FontFactory.GetFont(FontFactory.HELVETICA, 11);
+
+            //title
+            Paragraph title = new Paragraph("Factura Fiscală", titleFont)
+            {
+                Alignment = Element.ALIGN_CENTER,
+                SpacingAfter = 20f
+            };
+            doc.Add(title);
+
+            //client info
+            PdfPTable clientInfo = new PdfPTable(2);
+            clientInfo.WidthPercentage = 100;
+            clientInfo.SetWidths(new float[] { 1f, 2f });
+
+            clientInfo.AddCell(new Phrase("Client:", boldFont));
+            clientInfo.AddCell(new Phrase(cboClients.Text, regularFont));
+            clientInfo.AddCell(new Phrase("Data:", boldFont));
+            clientInfo.AddCell(new Phrase(DateTime.Now.ToString("dd.MM.yyyy"), regularFont));
+            clientInfo.AddCell(new Phrase("ID Comandă:", boldFont));
+            clientInfo.AddCell(new Phrase(orderId.ToString(), regularFont));
+            clientInfo.AddCell(new Phrase("Total:", boldFont));
+            clientInfo.AddCell(new Phrase(string.Format("{0:C}", totalAmount), regularFont));
+
+            clientInfo.SpacingAfter = 20f;
+            doc.Add(clientInfo);
+
+            //products table
+            PdfPTable table = new PdfPTable(5);
+            table.WidthPercentage = 100;
+            table.SetWidths(new float[] { 1f, 3f, 1f, 1f, 1f });
+
+            //headers
+            string[] headers = { "ID", "Produs", "Cantitate", "Preț unitar", "Subtotal" };
+            foreach (var header in headers)
+            {
+                PdfPCell cell = new PdfPCell(new Phrase(header, boldFont));
+                cell.BackgroundColor = new BaseColor(230, 230, 250);
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                table.AddCell(cell);
+            }
+
+            //cartItems products
+            foreach (DataRow item in cartItems.Rows)
+            {
+                int quantity = Convert.ToInt32(item["Cantitate"]);
+                decimal unitPrice = Convert.ToDecimal(item["Pret"]);
+                decimal subtotal = Convert.ToDecimal(item["Subtotal"]);
+
+                table.AddCell(new Phrase(item["ID_Produs"].ToString(), regularFont));
+                table.AddCell(new Phrase(item["NumeProdus"].ToString(), regularFont));
+                table.AddCell(new Phrase(quantity.ToString(), regularFont));
+                table.AddCell(new Phrase($"{unitPrice:C}", regularFont));
+                table.AddCell(new Phrase($"{subtotal:C}", regularFont));
+            }
+
+            table.SpacingAfter = 20f;
+            doc.Add(table);
+
+            //total
+            Paragraph totalPar = new Paragraph($"TOTAL DE PLATĂ: {totalAmount:C}", boldFont)
+            {
+                Alignment = Element.ALIGN_RIGHT
+            };
+            doc.Add(totalPar);
+
+            doc.Close();
+
+            MessageBox.Show($"Factura a fost generată: {filePath}", "PDF Generat",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            System.Diagnostics.Process.Start(filePath);
         }
 
         private void InitializeComponent()
