@@ -1,0 +1,16 @@
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\ManagerInventar.csproj.AssemblyReference.cache
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.Properties.Resources.resources
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\ManagerInventar.csproj.GenerateResource.cache
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\ManagerInventar.csproj.CoreCompileInputs.cache
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.exe
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\WindowsFormsCRUDApp.pdb
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\WindowsFormsCRUDApp.exe.config
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\WindowsFormsCRUDApp.exe
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\WindowsFormsCRUDApp.pdb
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\ManagerInventar.SalesForm.resources
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\ManagerInventar.MainForm.resources
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\BouncyCastle.Cryptography.dll
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\itextsharp.dll
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\BouncyCastle.Cryptography.xml
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\bin\Debug\itextsharp.xml
+D:\Faculta\AN3\sem2\II\Proiect\WindowsFormsCRUDApp\WindowsFormsCRUDApp\obj\Debug\ManagerI.A97A2272.Up2Date
